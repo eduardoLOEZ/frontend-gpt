@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import React, { useState } from "react";
 import LoginForm from "./pages/Login"
 import RegisterForm from "./pages/Register"
+import GptDashboard from "./pages/Dashboard";
 import './App.css'
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+
+        <Route path="/dashboard" element={<GptDashboard/>} />
 
       </Routes>
       <button
