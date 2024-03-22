@@ -4,7 +4,7 @@ import { getToken } from '../api/login';
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import PDF from '../components/PDF';
 import { getUserIdFromToken } from '../api/login';
-
+import UserInfoForm from '../components/UserInfoForm';
 
 const GptDashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,6 +12,7 @@ const GptDashboard = () => {
   const [response, setResponse] = useState('');
   const [responseHistory, setResponseHistory] = useState([]);
   const [expandedHistory, setExpandedHistory] = useState(false);
+  const [showUserInfoForm, setShowUserInfoForm] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: "Jesus Eduardo Loeza Cebrero",
     id: "00703919",
@@ -73,6 +74,16 @@ const GptDashboard = () => {
     }
   };
 
+  // editar response del historial
+const handleResponseEdit = (index, editedContent) => {
+  setResponseHistory(prevHistory => {
+    const updatedHistory = [...prevHistory];
+    updatedHistory[index] = editedContent;
+    return updatedHistory;
+  });
+};
+
+
   
 
   const handleLogout = () => {
@@ -95,6 +106,15 @@ const GptDashboard = () => {
         {({ loading }) => (loading ? 'Generando PDF...' : 'Descargar PDF')}
       </PDFDownloadLink>
     );
+  };
+  
+  const handleToggleUserInfoForm = () => {
+    setShowUserInfoForm(!showUserInfoForm);
+  };
+
+  const handleSubmitUserInfoForm = (data) => {
+    setUserInfo(data);
+    setShowUserInfoForm(false);
   };
 
 
@@ -146,22 +166,40 @@ const GptDashboard = () => {
       </div>
 
       {/* Historial de respuestas (expandido o contraído según el estado) */}
-    {expandedHistory && (
-    <div>
-        <h2 className="text-xl font-bold mb-2">Historial de respuestas</h2>
-        {responseHistory.map((item, index) => (
-        <div key={index} className="bg-white border rounded p-4 mb-4">
-            <strong className="response-text">Tarea {index + 1}:</strong> 
-            <span className="response-text">{item}</span> {/* Clase para el texto de la respuesta */}
-            <div className="response-text">
-            {/* Botón para exportar esta respuesta a PDF */}
-            {handleExportToPDF(item)}
-            </div>
-        </div>
-        ))}
-    </div>
-)}
+      {expandedHistory && (
+        <div>
+          <h2 className="text-xl font-bold mb-2">Historial de respuestas</h2>
+          {responseHistory.map((item, index) => (
+            <div key={index} className="bg-white border rounded p-4 mb-4">
+              <strong className="response-text">Tarea {index + 1}:</strong>
+              {/* Usar el contenido editado en el textarea */}
+              <textarea
+                value={item}
+                onChange={(e) => handleResponseEdit(index, e.target.value)}
+                className="w-full h-40 p-2 border border-gray-300 rounded"
+                style={{ color: 'black', backgroundColor: 'white' }} // Ajusta los colores aquí
+              />
 
+              <div className="response-text">
+                {handleExportToPDF(item)}
+              </div>
+            </div>
+          ))}
+
+          
+        </div>
+        )}
+        {/* Botón para mostrar el formulario de datos del alumno */}
+      <button
+        className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
+        onClick={handleToggleUserInfoForm}
+      >
+        Datos del alumno
+      </button>
+      {/* Formulario de datos del alumno */}
+      {showUserInfoForm && (
+        <UserInfoForm onSubmit={handleSubmitUserInfoForm} />
+      )}
   
       
     </div>

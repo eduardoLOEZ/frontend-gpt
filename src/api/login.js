@@ -9,9 +9,9 @@ const loginUser = async (email, password) => {
       password,
     });
     localStorage.setItem("token", response.data.token);
-    if (response.status === 200) {
+    if (response.status === 201) {
+      // Redireccionar al dashboard
       window.location.href = "/dashboard";
-      
     }
     console.log(response)
     return response;

@@ -26,9 +26,11 @@ const PDF = ({ userInfo, responseHistory }) => {
                         <Text>Carrera: {userInfo.career}</Text>
                         <Text>Cuatrimestre: {userInfo.semester}</Text>
                     </View>
+                    {userInfo.imageUrl && (
                     <View style={styles.logoContainer}>
                         <Image style={styles.logo} src={userInfo.imageUrl} />
                     </View>
+                    )}
                 </View>
             </Page>
 

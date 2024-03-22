@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import LoginForm from "./pages/Login"
 import RegisterForm from "./pages/Register"
 import GptDashboard from "./pages/Dashboard";
+import PrivateRoute from "./components/PrivateRoute";
 import './App.css'
 
 function App() {
@@ -21,16 +22,18 @@ function App() {
     <BrowserRouter>
     <div className={`${darkMode ? "dark" : ""}`}>
       <Routes>
-        {/* <Route element={<PrivateRoute/>}>
 
-          <Route path="/dashboard" element={<GptDashboard/>} />
+      <Route element={<PrivateRoute/>}>
 
-        </Route> */}
+        <Route path="/dashboard" element={<GptDashboard/>} />
+
+      </Route>
+
+        
+        
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
-
-        <Route path="/dashboard" element={<GptDashboard/>} />
 
       </Routes>
       <button

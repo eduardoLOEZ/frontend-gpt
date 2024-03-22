@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { loginUser } from "../api/login";
+import { Navigate } from "react-router-dom";
 
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -27,10 +27,12 @@ const Login = () => {
       const response = await loginUser(credentials.email, credentials.password);
       console.log(response);
 
+      
+
     } catch (error) {
       console.log(error);
     }
-
+   
     // onClose();
   };
 
