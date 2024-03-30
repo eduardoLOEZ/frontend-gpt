@@ -1,5 +1,7 @@
 import React from "react";
-import NavBar from "./Navbar"; 
+import NavBar from "./Navbar";
+import Footer from "./Footer";
+ 
 const HomePage = () => {
   return (
     <>
@@ -20,8 +22,10 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
  
 export default HomePage;
+ 
