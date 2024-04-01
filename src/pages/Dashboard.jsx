@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { getToken } from '../api/login';
-import { PDFDownloadLink } from '@react-pdf/renderer'
-import PDF from '../components/PDF';
-import { getUserIdFromToken } from '../api/login';
-import UserInfoForm from '../components/UserInfoForm';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { getToken } from "../api/login";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import PDF from "../components/PDF";
+import { getUserIdFromToken } from "../api/login";
+import UserInfoForm from "../components/UserInfoForm";
 
 const GptDashboard = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [prompt, setInput] = useState('');
-  const [response, setResponse] = useState('');
+  const [prompt, setInput] = useState("");
+  const [response, setResponse] = useState("");
   const [responseHistory, setResponseHistory] = useState([]);
   const [expandedHistory, setExpandedHistory] = useState(false);
   const [showUserInfoForm, setShowUserInfoForm] = useState(false);
@@ -19,8 +19,9 @@ const GptDashboard = () => {
     subject: "Programación 1",
     career: "Ing en Software",
     semester: "5to",
-    imageUrl: 'https://res.cloudinary.com/dyhpbqaht/image/upload/v1710900489/descarga_vwdrng.png'
-});
+    imageUrl:
+      "https://res.cloudinary.com/dyhpbqaht/image/upload/v1710900489/descarga_vwdrng.png",
+  });
 
   useEffect(() => {
     // Verificar si el usuario está autenticado al cargar el componente
@@ -34,18 +35,18 @@ const GptDashboard = () => {
     }
   }, []);
 
-
-
-
   const loadResponseHistory = async (userId) => {
     try {
       const token = getToken();
-    //   const userId = "65fa2357904175d58eaf7bf0"; // Reemplaza esto con la lógica para obtener el ID de usuario
-      const response = await axios.get(`http://localhost:3000/gpt/responses/${userId}`, {
-        headers: {
-          "token": token // Enviar el token de autenticación en el encabezado
+      //   const userId = "65fa2357904175d58eaf7bf0"; // Reemplaza esto con la lógica para obtener el ID de usuario
+      const response = await axios.get(
+        `https://backend-gpt-unid.onrender.com/gpt/responses/${userId}`,
+        {
+          headers: {
+            token: token, // Enviar el token de autenticación en el encabezado
+          },
         }
-      });
+      );
       setResponseHistory(response.data.responses);
     } catch (error) {
       console.error(error);
@@ -54,20 +55,22 @@ const GptDashboard = () => {
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
-  };    
-
-  
+  };
 
   const handleSendRequest = async () => {
     try {
       const token = getToken();
-      const response = await axios.post('http://localhost:3000/gpt/request/65fa2357904175d58eaf7bf0', {
-        prompt: prompt,
-      }, {
-        headers: {
-          "token": token // Enviar el token de autenticación en el encabezado
+      const response = await axios.post(
+        "https://backend-gpt-unid.onrender.com/gpt/request/65fa2357904175d58eaf7bf0",
+        {
+          prompt: prompt,
+        },
+        {
+          headers: {
+            token: token, // Enviar el token de autenticación en el encabezado
+          },
         }
-      });
+      );
       setResponse(response.data);
     } catch (error) {
       console.error(error);
@@ -75,19 +78,16 @@ const GptDashboard = () => {
   };
 
   // editar response del historial
-const handleResponseEdit = (index, editedContent) => {
-  setResponseHistory(prevHistory => {
-    const updatedHistory = [...prevHistory];
-    updatedHistory[index] = editedContent;
-    return updatedHistory;
-  });
-};
-
-
-  
+  const handleResponseEdit = (index, editedContent) => {
+    setResponseHistory((prevHistory) => {
+      const updatedHistory = [...prevHistory];
+      updatedHistory[index] = editedContent;
+      return updatedHistory;
+    });
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     window.location.href = "/login";
   };
@@ -102,12 +102,15 @@ const handleResponseEdit = (index, editedContent) => {
       <PDF userInfo={userInfo} responseHistory={[selectedResponse]} />
     );
     return (
-      <PDFDownloadLink document={pdfDocument} fileName={`${userInfo.name}_response.pdf`}>
-        {({ loading }) => (loading ? 'Generando PDF...' : 'Descargar PDF')}
+      <PDFDownloadLink
+        document={pdfDocument}
+        fileName={`${userInfo.name}_response.pdf`}
+      >
+        {({ loading }) => (loading ? "Generando PDF..." : "Descargar PDF")}
       </PDFDownloadLink>
     );
   };
-  
+
   const handleToggleUserInfoForm = () => {
     setShowUserInfoForm(!showUserInfoForm);
   };
@@ -116,8 +119,6 @@ const handleResponseEdit = (index, editedContent) => {
     setUserInfo(data);
     setShowUserInfoForm(false);
   };
-
-
 
   return (
     <div className="container mx-auto p-4">
@@ -152,7 +153,10 @@ const handleResponseEdit = (index, editedContent) => {
       {/* Respuesta del modelo */}
       {response && (
         <div className="border p-4 rounded">
-          <strong>Respuesta:</strong> {typeof response.data === 'string' ? response.data : JSON.stringify(response.data)}
+          <strong>Respuesta:</strong>{" "}
+          {typeof response.data === "string"
+            ? response.data
+            : JSON.stringify(response.data)}
         </div>
       )}
       {/* Botón para ver historial */}
@@ -161,7 +165,7 @@ const handleResponseEdit = (index, editedContent) => {
           className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
           onClick={toggleExpandedHistory}
         >
-          {expandedHistory ? 'Ocultar historial' : 'Ver historial'}
+          {expandedHistory ? "Ocultar historial" : "Ver historial"}
         </button>
       </div>
 
@@ -177,19 +181,15 @@ const handleResponseEdit = (index, editedContent) => {
                 value={item}
                 onChange={(e) => handleResponseEdit(index, e.target.value)}
                 className="w-full h-40 p-2 border border-gray-300 rounded"
-                style={{ color: 'black', backgroundColor: 'white' }} // Ajusta los colores aquí
+                style={{ color: "black", backgroundColor: "white" }} // Ajusta los colores aquí
               />
 
-              <div className="response-text">
-                {handleExportToPDF(item)}
-              </div>
+              <div className="response-text">{handleExportToPDF(item)}</div>
             </div>
           ))}
-
-          
         </div>
-        )}
-        {/* Botón para mostrar el formulario de datos del alumno */}
+      )}
+      {/* Botón para mostrar el formulario de datos del alumno */}
       <button
         className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded"
         onClick={handleToggleUserInfoForm}
@@ -197,11 +197,7 @@ const handleResponseEdit = (index, editedContent) => {
         Datos del alumno
       </button>
       {/* Formulario de datos del alumno */}
-      {showUserInfoForm && (
-        <UserInfoForm onSubmit={handleSubmitUserInfoForm} />
-      )}
-  
-      
+      {showUserInfoForm && <UserInfoForm onSubmit={handleSubmitUserInfoForm} />}
     </div>
   );
 };
