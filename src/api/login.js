@@ -1,7 +1,10 @@
 import axios from "axios";
+import { useHistory } from "react-router-dom"; // Importa useHistory de React Router
+
 const endPoint = "https://backend-gpt-unid.onrender.com/login";
 
 const loginUser = async (email, password) => {
+  const history = useHistory();
   try {
     const response = await axios.post(endPoint, {
       email,
@@ -10,7 +13,7 @@ const loginUser = async (email, password) => {
     localStorage.setItem("token", response.data.token);
     if (response.status === 201) {
       // Redireccionar al dashboard
-      window.location.href = "/dashboard";
+      history.push("/dashboard");
     }
     console.log(response);
     return response;
