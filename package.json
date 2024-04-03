@@ -23,6 +23,7 @@
     "react-froala-wysiwyg": "^4.2.0",
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.22.3",
+    "react-simple-typewriter": "^5.0.1",
     "tailwindcss": "^3.4.1"
   },
   "devDependencies": {
