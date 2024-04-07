@@ -1,43 +1,41 @@
-
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { loginUser } from "../api/login";
 import { Navigate } from "react-router-dom";
 import backgroundImage from "./unid9.png";
- 
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
- 
+  // Estado para controlar la carga
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
- 
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
   };
- 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
- 
+
     const credentials = {
       email: email,
       password: password,
     };
- 
+
     try {
       const response = await loginUser(credentials.email, credentials.password);
       console.log(response);
     } catch (error) {
       console.log(error);
     }
- 
-    // onClose();
   };
- 
+
   return (
     <div
       className="bg-cover bg-center fixed inset-0"
-      style={{ backgroundImage: `url(${backgroundImage})` }} // Utilizar la imagen importada
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
       <div className="container flex justify-center items-center h-screen">
         <div className="login-form bg-white bg-opacity-80 p-8 text-lg rounded-lg shadow-md">
@@ -68,6 +66,7 @@ const Login = () => {
           >
             Login
           </button>
+
           <div className="sub-text text-base mt-8">
             ¿No tienes cuenta?{" "}
             <a href="/register" className="cta-button">
@@ -79,6 +78,5 @@ const Login = () => {
     </div>
   );
 };
- 
+
 export default Login;
- 
