@@ -1,0 +1,13 @@
+/* App.css */
+.dark {
+    background-color: #333;
+    color: #fff;
+  }
+
+  /* App.css */
+
+
+.dark .historial-text,
+.dark .response-text {
+  color: #000; /* Cambia el color del texto a negro en modo oscuro */
+}
